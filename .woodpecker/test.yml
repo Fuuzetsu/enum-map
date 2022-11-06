@@ -11,7 +11,7 @@ when:
 matrix:
   RUST_IMAGE:
     - rust
-    - "rust:1.61"
+    - "rust:1.65"
 
 steps:
   test:

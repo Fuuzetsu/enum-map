@@ -1,13 +1,14 @@
+// SPDX-FileCopyrightText: 2021 - 2023 Konrad Borowski <konrad@borowski.pw>
 // SPDX-FileCopyrightText: 2021 Bruno Corrêa Zimmermann <brunoczim@gmail.com>
-// SPDX-FileCopyrightText: 2021 Konrad Borowski <konrad@borowski.pw>
 //
 // SPDX-License-Identifier: MIT OR Apache-2.0
 
-use crate::{enum_map, EnumArray, EnumMap};
+use crate::internal::Array;
+use crate::{enum_map, Enum, EnumMap};
 use arbitrary::{Arbitrary, Result, Unstructured};
 
 /// Requires crate feature `"arbitrary"`
-impl<'a, K: EnumArray<V>, V: Arbitrary<'a>> Arbitrary<'a> for EnumMap<K, V> {
+impl<'a, K: Enum, V: Arbitrary<'a>> Arbitrary<'a> for EnumMap<K, V> {
     fn arbitrary(u: &mut Unstructured<'a>) -> Result<EnumMap<K, V>> {
         Ok(enum_map! {
             _ => Arbitrary::arbitrary(u)?,
@@ -15,13 +16,14 @@ impl<'a, K: EnumArray<V>, V: Arbitrary<'a>> Arbitrary<'a> for EnumMap<K, V> {
     }
 
     fn size_hint(depth: usize) -> (usize, Option<usize>) {
-        if K::LENGTH == 0 {
+        let len = K::Array::<V>::LENGTH;
+        if len == 0 {
             (0, Some(0))
         } else {
             let (lo, hi) = V::size_hint(depth);
             (
-                lo.saturating_mul(K::LENGTH),
-                hi.and_then(|hi| hi.checked_mul(K::LENGTH)),
+                lo.saturating_mul(len),
+                hi.and_then(|hi| hi.checked_mul(len)),
             )
         }
     }

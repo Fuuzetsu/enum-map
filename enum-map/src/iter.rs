@@ -1,12 +1,12 @@
 #![allow(clippy::module_name_repetitions)]
 
-// SPDX-FileCopyrightText: 2017 - 2022 Konrad Borowski <konrad@borowski.pw>
+// SPDX-FileCopyrightText: 2017 - 2023 Konrad Borowski <konrad@borowski.pw>
 // SPDX-FileCopyrightText: 2020 Amanieu d'Antras <amanieu@gmail.com>
 // SPDX-FileCopyrightText: 2021 Bruno Corrêa Zimmermann <brunoczim@gmail.com>
 //
 // SPDX-License-Identifier: MIT OR Apache-2.0
 
-use crate::{EnumArray, EnumMap};
+use crate::{Enum, EnumMap};
 use core::iter::{Enumerate, FusedIterator};
 use core::marker::PhantomData;
 use core::mem::ManuallyDrop;
@@ -46,7 +46,7 @@ pub struct Iter<'a, K, V: 'a> {
     iterator: Enumerate<slice::Iter<'a, V>>,
 }
 
-impl<'a, K: EnumArray<V>, V> Clone for Iter<'a, K, V> {
+impl<'a, K: Enum, V> Clone for Iter<'a, K, V> {
     fn clone(&self) -> Self {
         Iter {
             _phantom: PhantomData,
@@ -55,7 +55,7 @@ impl<'a, K: EnumArray<V>, V> Clone for Iter<'a, K, V> {
     }
 }
 
-impl<'a, K: EnumArray<V>, V> Iterator for Iter<'a, K, V> {
+impl<'a, K: Enum, V> Iterator for Iter<'a, K, V> {
     type Item = (K, &'a V);
     #[inline]
     fn next(&mut self) -> Option<Self::Item> {
@@ -79,7 +79,7 @@ impl<'a, K: EnumArray<V>, V> Iterator for Iter<'a, K, V> {
     }
 }
 
-impl<'a, K: EnumArray<V>, V> DoubleEndedIterator for Iter<'a, K, V> {
+impl<'a, K: Enum, V> DoubleEndedIterator for Iter<'a, K, V> {
     #[inline]
     fn next_back(&mut self) -> Option<Self::Item> {
         self.iterator
@@ -88,11 +88,11 @@ impl<'a, K: EnumArray<V>, V> DoubleEndedIterator for Iter<'a, K, V> {
     }
 }
 
-impl<'a, K: EnumArray<V>, V> ExactSizeIterator for Iter<'a, K, V> {}
+impl<'a, K: Enum, V> ExactSizeIterator for Iter<'a, K, V> {}
 
-impl<'a, K: EnumArray<V>, V> FusedIterator for Iter<'a, K, V> {}
+impl<'a, K: Enum, V> FusedIterator for Iter<'a, K, V> {}
 
-impl<'a, K: EnumArray<V>, V> IntoIterator for &'a EnumMap<K, V> {
+impl<'a, K: Enum, V> IntoIterator for &'a EnumMap<K, V> {
     type Item = (K, &'a V);
     type IntoIter = Iter<'a, K, V>;
     #[inline]
@@ -133,7 +133,7 @@ pub struct IterMut<'a, K, V: 'a> {
     iterator: Enumerate<slice::IterMut<'a, V>>,
 }
 
-impl<'a, K: EnumArray<V>, V> Iterator for IterMut<'a, K, V> {
+impl<'a, K: Enum, V> Iterator for IterMut<'a, K, V> {
     type Item = (K, &'a mut V);
     #[inline]
     fn next(&mut self) -> Option<Self::Item> {
@@ -157,7 +157,7 @@ impl<'a, K: EnumArray<V>, V> Iterator for IterMut<'a, K, V> {
     }
 }
 
-impl<'a, K: EnumArray<V>, V> DoubleEndedIterator for IterMut<'a, K, V> {
+impl<'a, K: Enum, V> DoubleEndedIterator for IterMut<'a, K, V> {
     #[inline]
     fn next_back(&mut self) -> Option<Self::Item> {
         self.iterator
@@ -166,11 +166,11 @@ impl<'a, K: EnumArray<V>, V> DoubleEndedIterator for IterMut<'a, K, V> {
     }
 }
 
-impl<'a, K: EnumArray<V>, V> ExactSizeIterator for IterMut<'a, K, V> {}
+impl<'a, K: Enum, V> ExactSizeIterator for IterMut<'a, K, V> {}
 
-impl<'a, K: EnumArray<V>, V> FusedIterator for IterMut<'a, K, V> {}
+impl<'a, K: Enum, V> FusedIterator for IterMut<'a, K, V> {}
 
-impl<'a, K: EnumArray<V>, V> IntoIterator for &'a mut EnumMap<K, V> {
+impl<'a, K: Enum, V> IntoIterator for &'a mut EnumMap<K, V> {
     type Item = (K, &'a mut V);
     type IntoIter = IterMut<'a, K, V>;
     #[inline]
@@ -202,12 +202,12 @@ impl<'a, K: EnumArray<V>, V> IntoIterator for &'a mut EnumMap<K, V> {
 ///     assert_eq!(value + "4", "1234");
 /// }
 /// ```
-pub struct IntoIter<K: EnumArray<V>, V> {
+pub struct IntoIter<K: Enum, V> {
     map: ManuallyDrop<EnumMap<K, V>>,
     alive: Range<usize>,
 }
 
-impl<K: EnumArray<V>, V> Iterator for IntoIter<K, V> {
+impl<K: Enum, V> Iterator for IntoIter<K, V> {
     type Item = (K, V);
     fn next(&mut self) -> Option<(K, V)> {
         let position = self.alive.next()?;
@@ -222,7 +222,7 @@ impl<K: EnumArray<V>, V> Iterator for IntoIter<K, V> {
     }
 }
 
-impl<K: EnumArray<V>, V> DoubleEndedIterator for IntoIter<K, V> {
+impl<K: Enum, V> DoubleEndedIterator for IntoIter<K, V> {
     fn next_back(&mut self) -> Option<(K, V)> {
         let position = self.alive.next_back()?;
         Some((K::from_usize(position), unsafe {
@@ -231,11 +231,11 @@ impl<K: EnumArray<V>, V> DoubleEndedIterator for IntoIter<K, V> {
     }
 }
 
-impl<K: EnumArray<V>, V> ExactSizeIterator for IntoIter<K, V> {}
+impl<K: Enum, V> ExactSizeIterator for IntoIter<K, V> {}
 
-impl<K: EnumArray<V>, V> FusedIterator for IntoIter<K, V> {}
+impl<K: Enum, V> FusedIterator for IntoIter<K, V> {}
 
-impl<K: EnumArray<V>, V> Drop for IntoIter<K, V> {
+impl<K: Enum, V> Drop for IntoIter<K, V> {
     #[inline]
     fn drop(&mut self) {
         unsafe {
@@ -244,7 +244,7 @@ impl<K: EnumArray<V>, V> Drop for IntoIter<K, V> {
     }
 }
 
-impl<K: EnumArray<V>, V> IntoIterator for EnumMap<K, V> {
+impl<K: Enum, V> IntoIterator for EnumMap<K, V> {
     type Item = (K, V);
     type IntoIter = IntoIter<K, V>;
     #[inline]
@@ -257,7 +257,7 @@ impl<K: EnumArray<V>, V> IntoIterator for EnumMap<K, V> {
     }
 }
 
-impl<K: EnumArray<V>, V> EnumMap<K, V> {
+impl<K: Enum, V> EnumMap<K, V> {
     /// An iterator visiting all values. The iterator type is `&V`.
     ///
     /// # Examples
@@ -385,13 +385,13 @@ impl<'a, V: 'a> FusedIterator for ValuesMut<'a, V> {}
 ///
 /// This `struct` is created by the `into_values` method of `EnumMap`.
 /// See its documentation for more.
-pub struct IntoValues<K: EnumArray<V>, V> {
+pub struct IntoValues<K: Enum, V> {
     inner: IntoIter<K, V>,
 }
 
 impl<K, V> Iterator for IntoValues<K, V>
 where
-    K: EnumArray<V>,
+    K: Enum,
 {
     type Item = V;
 
@@ -404,12 +404,12 @@ where
     }
 }
 
-impl<K: EnumArray<V>, V> DoubleEndedIterator for IntoValues<K, V> {
+impl<K: Enum, V> DoubleEndedIterator for IntoValues<K, V> {
     fn next_back(&mut self) -> Option<V> {
         Some(self.inner.next_back()?.1)
     }
 }
 
-impl<K, V> ExactSizeIterator for IntoValues<K, V> where K: EnumArray<V> {}
+impl<K, V> ExactSizeIterator for IntoValues<K, V> where K: Enum {}
 
-impl<K, V> FusedIterator for IntoValues<K, V> where K: EnumArray<V> {}
+impl<K, V> FusedIterator for IntoValues<K, V> where K: Enum {}
