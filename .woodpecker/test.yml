@@ -1,0 +1,21 @@
+# SPDX-FileCopyrightText: 2023 Konrad Borowski <konrad@borowski.pw>
+#
+# SPDX-License-Identifier: MIT OR Apache-2.0
+
+when:
+  - event: pull_request
+  - event: push
+    branch:
+       - master
+
+matrix:
+  RUST_IMAGE:
+    - rust
+    - "rust:1.61"
+
+steps:
+  build:
+    image: ${RUST_IMAGE}
+    commands:
+      - cargo build --locked --verbose
+      - cargo test --locked --verbose
