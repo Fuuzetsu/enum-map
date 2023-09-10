@@ -14,7 +14,7 @@ matrix:
     - "rust:1.61"
 
 steps:
-  build:
+  test:
     image: ${RUST_IMAGE}
     commands:
       - cargo build --all-features --locked --verbose
