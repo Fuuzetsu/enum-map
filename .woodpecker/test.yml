@@ -17,5 +17,5 @@ steps:
   build:
     image: ${RUST_IMAGE}
     commands:
-      - cargo build --locked --verbose
-      - cargo test --locked --verbose
+      - cargo build --all-features --locked --verbose
+      - cargo test --all-features --locked --verbose
