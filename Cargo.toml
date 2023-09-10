@@ -3,6 +3,7 @@
 # SPDX-License-Identifier: CC0-1.0 or MIT OR Apache-2.0
 
 [workspace]
+resolver = "2"
 members = [
     "enum-map",
     "enum-map-derive",
