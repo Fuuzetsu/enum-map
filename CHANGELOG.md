@@ -5,6 +5,15 @@ SPDX-FileCopyrightText: 2021 Alex Sayers <alex@asayers.com>
 SPDX-License-Identifier: MIT OR Apache-2.0
 -->
 
+# Version 2.6.3
+
+## Other changes
+
+- Updated the repository URL as the project was migrated from GitHub
+  to Codeberg.
+
+- This project is now compliant with the REUSE Specification.
+
 # Version 2.6.2
 
 ## Other changes
