@@ -5,6 +5,14 @@ SPDX-FileCopyrightText: 2021 Alex Sayers <alex@asayers.com>
 SPDX-License-Identifier: MIT OR Apache-2.0
 -->
 
+# Version 3.0.0-0.gat.0
+
+## Breaking changes
+
+- `Enum` and `EnumArray` traits are now combined into a single trait
+  using generic associated types. Trait bounds talking about
+  `EnumArray` (like `K: EnumArray<V>`) must be replaced with `K: Enum`.
+
 # Version 2.6.3
 
 ## Other changes
