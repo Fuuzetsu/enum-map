@@ -1,0 +1,18 @@
+# SPDX-FileCopyrightText: 2023 Konrad Borowski <konrad@borowski.pw>
+#
+# SPDX-License-Identifier: MIT OR Apache-2.0
+
+when:
+  - event: pull_request
+  - event: push
+    branch:
+       - master
+
+steps:
+  miri:
+    image: instrumentisto/rust:nightly-2023-09-21@sha256:d6f5728534f9974d9d8e493ae182fef18a229308934b4e990d11a3279c251e4a
+    environment:
+      - CARGO_TERM_COLOR=always
+    commands:
+      - rustup component add miri
+      - cargo miri test --all-features --locked --verbose
