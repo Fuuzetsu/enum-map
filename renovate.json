@@ -3,5 +3,13 @@
   "extends": [
     "config:recommended",
     ":preserveSemverRanges"
+  ],
+  "packageRules": [
+    {
+      "matchPackageNames": [
+        "instrumentisto/rust"
+      ],
+      "versioning": "regex:^nightly-(?<major>\\d+)-(?<minor>\\d+)-(?<patch>\\d+)$"
+    }
   ]
 }
