@@ -20,4 +20,5 @@ steps:
       - CARGO_TERM_COLOR=always
     commands:
       - cargo build --all-features --locked --verbose
+      - cargo test --no-default-features --locked --verbose
       - cargo test --all-features --locked --verbose

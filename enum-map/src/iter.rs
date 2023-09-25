@@ -22,6 +22,7 @@ use core::slice;
 /// # Examples
 ///
 /// ```
+/// # use enum_map_derive::*;
 /// use enum_map::{enum_map, Enum};
 ///
 /// #[derive(Enum)]
@@ -112,6 +113,7 @@ impl<'a, K: Enum, V> IntoIterator for &'a EnumMap<K, V> {
 /// # Examples
 ///
 /// ```
+/// # use enum_map_derive::*;
 /// use enum_map::{enum_map, Enum};
 ///
 /// #[derive(Debug, Enum)]
@@ -189,6 +191,7 @@ impl<'a, K: Enum, V> IntoIterator for &'a mut EnumMap<K, V> {
 /// # Examples
 ///
 /// ```
+/// # use enum_map_derive::*;
 /// use enum_map::{enum_map, Enum};
 ///
 /// #[derive(Debug, Enum)]

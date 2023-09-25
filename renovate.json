@@ -1,7 +1,18 @@
 {
-    "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-    "extends": [
-      "config:recommended",
-      ":preserveSemverRanges"
-    ]
-  }
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:recommended",
+    ":preserveSemverRanges"
+  ],
+  "packageRules": [
+    {
+      "matchPackageNames": [
+        "instrumentisto/rust"
+      ],
+      "extends": [
+        "schedule:monthly"
+      ],
+      "versioning": "regex:^nightly-(?<major>\\d+)-(?<minor>\\d+)-(?<patch>\\d+)$"
+    }
+  ]
+}

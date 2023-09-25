@@ -15,6 +15,7 @@
 //! # Examples
 //!
 //! ```
+//! # use enum_map_derive::*;
 //! use enum_map::{enum_map, Enum, EnumMap};
 //!
 //! #[derive(Debug, Enum)]
@@ -59,6 +60,7 @@ use core::slice;
 #[doc(hidden)]
 // unreachable needs to be exported for compatibility with older versions of enum-map-derive
 pub use core::{panic, ptr, unreachable};
+#[cfg(feature = "derive")]
 pub use enum_map_derive::Enum;
 #[doc(hidden)]
 pub use internal::out_of_bounds;
@@ -153,6 +155,7 @@ where
 /// # Examples
 ///
 /// ```
+/// # use enum_map_derive::*;
 /// use enum_map::{enum_map, Enum};
 ///
 /// #[derive(Enum)]
@@ -221,6 +224,7 @@ macro_rules! enum_map {
 /// # Examples
 ///
 /// ```
+/// # use enum_map_derive::*;
 /// use enum_map::{enum_map, Enum, EnumMap};
 ///
 /// #[derive(Enum)]
@@ -249,6 +253,7 @@ impl<K: Enum, V: Default> EnumMap<K, V> {
     /// # Examples
     ///
     /// ```
+    /// # use enum_map_derive::*;
     /// use enum_map::{Enum, EnumMap};
     ///
     /// #[derive(Enum)]
@@ -287,6 +292,7 @@ impl<K: Enum, V> EnumMap<K, V> {
     /// # Examples
     ///
     /// ```
+    /// # use enum_map_derive::*;
     /// use enum_map::{enum_map, Enum};
     ///
     /// #[derive(Enum, PartialEq)]
@@ -342,6 +348,7 @@ impl<K: Enum, V> EnumMap<K, V> {
     /// # Examples
     ///
     /// ```
+    /// # use enum_map_derive::*;
     /// use enum_map::{enum_map, Enum};
     ///
     /// #[derive(Enum, PartialEq)]
@@ -366,6 +373,7 @@ impl<K: Enum, V> EnumMap<K, V> {
     /// # Examples
     ///
     /// ```
+    /// # use enum_map_derive::*;
     /// use enum_map::{enum_map, Enum};
     ///
     /// #[derive(Enum, PartialEq)]
@@ -390,6 +398,7 @@ impl<K: Enum, V> EnumMap<K, V> {
     /// # Examples
     ///
     /// ```
+    /// # use enum_map_derive::*;
     /// use enum_map::{enum_map, Enum};
     ///
     /// #[derive(Enum, PartialEq)]
@@ -415,6 +424,7 @@ impl<K: Enum, V> EnumMap<K, V> {
     /// # Examples
     ///
     /// ```
+    /// # use enum_map_derive::*;
     /// use enum_map::{enum_map, Enum};
     ///
     /// #[derive(Enum, PartialEq)]

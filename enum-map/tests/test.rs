@@ -7,11 +7,9 @@
 //
 // SPDX-License-Identifier: MIT OR Apache-2.0
 
-#[macro_use]
-extern crate enum_map;
-
-use enum_map::{Enum, EnumMap, IntoIter};
-
+use enum_map::{enum_map, Enum, EnumMap, IntoIter};
+#[allow(unused_imports)]
+use enum_map_derive::*;
 use std::cell::{Cell, RefCell};
 use std::collections::HashSet;
 use std::convert::Infallible;
