@@ -6,6 +6,8 @@
 // SPDX-License-Identifier: MIT OR Apache-2.0
 
 use enum_map::{enum_map, Enum, EnumMap};
+#[allow(unused_imports)]
+use enum_map_derive::*;
 use serde::{Deserialize, Serialize};
 use serde_test::{assert_de_tokens_error, assert_tokens, Compact, Configure, Token};
 
