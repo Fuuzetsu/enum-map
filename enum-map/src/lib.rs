@@ -284,6 +284,29 @@ impl<K: EnumArray<V>, V> EnumMap<K, V> {
         EnumMap { array }
     }
 
+    /// Create an enum map, where each value is the returned value from `cb`
+    /// using provided enum key.
+    ///
+    /// ```
+    /// # use enum_map_derive::*;
+    /// use enum_map::{enum_map, Enum, EnumMap};
+    ///
+    /// #[derive(Enum, PartialEq, Debug)]
+    /// enum Example {
+    ///     A,
+    ///     B,
+    /// }
+    ///
+    /// let map = EnumMap::from_fn(|k| k == Example::A);
+    /// assert_eq!(map, enum_map! { Example::A => true, Example::B => false })
+    /// ```
+    pub fn from_fn<F>(mut cb: F) -> Self
+    where
+        F: FnMut(K) -> V,
+    {
+        enum_map! { k => cb(k) }
+    }
+
     /// Returns an iterator over enum map.
     ///
     /// The iteration order is deterministic, and when using [macro@Enum] derive
