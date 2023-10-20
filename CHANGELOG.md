@@ -5,6 +5,12 @@ SPDX-FileCopyrightText: 2021 Alex Sayers <alex@asayers.com>
 SPDX-License-Identifier: MIT OR Apache-2.0
 -->
 
+# Version 2.7.0
+
+## New features
+
+- Implemented `EnumMap::from_fn`.
+
 # Version 2.6.3
 
 ## Other changes
