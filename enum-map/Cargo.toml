@@ -5,7 +5,7 @@
 
 [package]
 name = "enum-map"
-version = "3.0.0-0.gat.0"
+version = "3.0.0-beta.1"
 authors = ["Konrad Borowski <konrad@borowski.pw>"]
 edition = "2021"
 rust-version = "1.65"
