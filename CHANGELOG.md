@@ -13,6 +13,12 @@ SPDX-License-Identifier: MIT OR Apache-2.0
   using generic associated types. Trait bounds talking about
   `EnumArray` (like `K: EnumArray<V>`) must be replaced with `K: Enum`.
 
+# Version 2.7.0
+
+## New features
+
+- Implemented `EnumMap::from_fn`.
+
 # Version 2.6.3
 
 ## Other changes
