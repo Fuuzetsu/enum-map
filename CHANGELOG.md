@@ -10,6 +10,7 @@ SPDX-License-Identifier: MIT OR Apache-2.0
 ## New features
 
 - Implemented `EnumMap::from_fn`.
+- `derive` feature is now an optional default feature.
 
 # Version 2.7.0
 
