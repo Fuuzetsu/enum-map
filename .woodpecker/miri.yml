@@ -10,7 +10,7 @@ when:
 
 steps:
   miri:
-    image: instrumentisto/rust:nightly-2023-09-30@sha256:c4a3e048b09797065581f9a815ded715d4a73861e1fcee07b6beebf0989d676f
+    image: instrumentisto/rust:nightly-2023-10-30@sha256:df4b29a42df8334407bacfc0241c43f2263f3159f96b263a86038296c2406ba6
     environment:
       - CARGO_TERM_COLOR=always
     commands:
