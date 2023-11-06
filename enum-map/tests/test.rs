@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2018 - 2022 Konrad Borowski <konrad@borowski.pw>
+// SPDX-FileCopyrightText: 2018 - 2023 Konrad Borowski <konrad@borowski.pw>
 // SPDX-FileCopyrightText: 2019 Riey <creeper844@gmail.com>
 // SPDX-FileCopyrightText: 2020 Amanieu d'Antras <amanieu@gmail.com>
 // SPDX-FileCopyrightText: 2021 Bruno Corrêa Zimmermann <brunoczim@gmail.com>
@@ -7,7 +7,7 @@
 //
 // SPDX-License-Identifier: MIT OR Apache-2.0
 
-use enum_map::{enum_map, Enum, EnumArray, EnumMap, IntoIter};
+use enum_map::{enum_map, Enum, EnumMap, IntoIter};
 #[allow(unused_imports)]
 use enum_map_derive::*;
 use std::cell::{Cell, RefCell};
@@ -443,7 +443,7 @@ enum X {
 }
 
 impl Enum for X {
-    const LENGTH: usize = 1;
+    type Array<V> = [V; 1];
 
     fn from_usize(arg: usize) -> X {
         assert_eq!(arg, 0);
@@ -453,10 +453,6 @@ impl Enum for X {
     fn into_usize(self) -> usize {
         0
     }
-}
-
-impl<V> EnumArray<V> for X {
-    type Array = [V; Self::LENGTH];
 }
 
 fn assert_sync_send<T: Sync + Send>(_: T) {}
@@ -569,7 +565,7 @@ macro_rules! make_enum_map_macro_safety_test {
         }
 
         impl Enum for E {
-            const LENGTH: usize = $a;
+            type Array<V> = [V; $a];
 
             fn from_usize(value: usize) -> E {
                 match value {
@@ -583,10 +579,6 @@ macro_rules! make_enum_map_macro_safety_test {
             fn into_usize(self) -> usize {
                 self as usize
             }
-        }
-
-        impl<V> EnumArray<V> for E {
-            type Array = [V; $b];
         }
 
         let map: EnumMap<E, String> = enum_map! { _ => "Hello, world!".into() };
@@ -653,4 +645,13 @@ fn usize_override() {
         A,
         B,
     }
+}
+
+#[derive(Enum)]
+enum V {
+    V,
+}
+#[derive(Enum)]
+struct StructureCanHoldV {
+    v: V,
 }

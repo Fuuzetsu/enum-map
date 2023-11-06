@@ -5,6 +5,19 @@ SPDX-FileCopyrightText: 2021 Alex Sayers <alex@asayers.com>
 SPDX-License-Identifier: MIT OR Apache-2.0
 -->
 
+# Version 3.0.0-beta.1
+
+## New features
+
+- Implemented `EnumMap::from_fn`.
+- `derive` feature is now an optional default feature.
+
+# Version 2.7.0
+
+## New features
+
+- Implemented `EnumMap::from_fn`.
+
 # Version 3.0.0-0.gat.0
 
 ## Breaking changes
@@ -12,12 +25,6 @@ SPDX-License-Identifier: MIT OR Apache-2.0
 - `Enum` and `EnumArray` traits are now combined into a single trait
   using generic associated types. Trait bounds talking about
   `EnumArray` (like `K: EnumArray<V>`) must be replaced with `K: Enum`.
-
-# Version 2.7.0
-
-## New features
-
-- Implemented `EnumMap::from_fn`.
 
 # Version 2.6.3
 
