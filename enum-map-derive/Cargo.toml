@@ -1,4 +1,4 @@
-# SPDX-FileCopyrightText: 2017 - 2023 Konrad Borowski <konrad@borowski.pw>
+# SPDX-FileCopyrightText: 2017 - 2023 Kamila Borowska <kamila@borowska.pw>
 # SPDX-FileCopyrightText: 2018 hcpl <hcpl.prog@gmail.com>
 #
 # SPDX-License-Identifier: MIT OR Apache-2.0
@@ -6,7 +6,7 @@
 [package]
 name = "enum-map-derive"
 version = "1.0.0-0.gat.0"
-authors = ["Konrad Borowski <konrad@borowski.pw>"]
+authors = ["Kamila Borowska <kamila@borowska.pw>"]
 edition = "2021"
 rust-version = "1.61"
 repository = "https://codeberg.org/xfix/enum-map"

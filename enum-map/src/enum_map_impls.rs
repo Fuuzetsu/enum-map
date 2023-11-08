@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2017 - 2023 Konrad Borowski <konrad@borowski.pw>
+// SPDX-FileCopyrightText: 2017 - 2023 Kamila Borowska <kamila@borowska.pw>
 // SPDX-FileCopyrightText: 2021 Bruno Corrêa Zimmermann <brunoczim@gmail.com>
 // SPDX-FileCopyrightText: 2021 micycle
 // SPDX-FileCopyrightText: 2023 Nicolas Carranza <nicarran@yandex.com>
