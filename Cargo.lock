@@ -19,7 +19,7 @@ dependencies = [
 
 [[package]]
 name = "enum-map"
-version = "2.7.0"
+version = "2.7.1"
 dependencies = [
  "arbitrary",
  "bincode",
