@@ -5,7 +5,7 @@
 
 [package]
 name = "enum-map-derive"
-version = "0.14.0"
+version = "0.15.0"
 authors = ["Kamila Borowska <kamila@borowska.pw>"]
 edition = "2021"
 rust-version = "1.61"
