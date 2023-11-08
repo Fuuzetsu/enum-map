@@ -5,6 +5,12 @@ SPDX-FileCopyrightText: 2021 Alex Sayers <alex@asayers.com>
 SPDX-License-Identifier: MIT OR Apache-2.0
 -->
 
+# Version 2.7.1
+
+## Other changes
+
+- Updated author name.
+
 # Version 3.0.0-beta.1
 
 ## New features
