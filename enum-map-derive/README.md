@@ -1,5 +1,5 @@
 <!--
-SPDX-FileCopyrightText: 2022 Konrad Borowski <konrad@borowski.pw>
+SPDX-FileCopyrightText: 2022 Kamila Borowska <kamila@borowska.pw>
 
 SPDX-License-Identifier: MIT OR Apache-2.0
 -->
