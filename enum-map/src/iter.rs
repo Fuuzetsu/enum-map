@@ -1,6 +1,6 @@
 #![allow(clippy::module_name_repetitions)]
 
-// SPDX-FileCopyrightText: 2017 - 2022 Konrad Borowski <konrad@borowski.pw>
+// SPDX-FileCopyrightText: 2017 - 2022 Kamila Borowska <kamila@borowska.pw>
 // SPDX-FileCopyrightText: 2020 Amanieu d'Antras <amanieu@gmail.com>
 // SPDX-FileCopyrightText: 2021 Bruno Corrêa Zimmermann <brunoczim@gmail.com>
 //

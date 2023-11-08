@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2017 - 2022 Konrad Borowski <konrad@borowski.pw>
+// SPDX-FileCopyrightText: 2017 - 2022 Kamila Borowska <kamila@borowska.pw>
 // SPDX-FileCopyrightText: 2018 hcpl <hcpl.prog@gmail.com>
 // SPDX-FileCopyrightText: 2019 mara <vmedea@protonmail.com>
 // SPDX-FileCopyrightText: 2021 Bruno Corrêa Zimmermann <brunoczim@gmail.com>
