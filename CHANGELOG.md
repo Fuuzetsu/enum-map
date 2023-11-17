@@ -5,6 +5,13 @@ SPDX-FileCopyrightText: 2021 Alex Sayers <alex@asayers.com>
 SPDX-License-Identifier: MIT OR Apache-2.0
 -->
 
+# Version 2.7.2
+
+## Other changes
+
+- Reduced RAM usage and improved compilation times when using `derive(Enum)`
+  for large enums with `overflow-checks` enabled.
+
 # Version 3.0.0-beta.2
 
 ## Other changes

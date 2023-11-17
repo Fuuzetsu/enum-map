@@ -5,7 +5,7 @@
 
 use crate::type_length;
 use proc_macro2::TokenStream;
-use quote::{format_ident, quote};
+use quote::{format_ident, quote, ToTokens};
 use syn::{DataEnum, Fields, FieldsNamed, FieldsUnnamed, Ident, Variant};
 
 pub fn generate(name: Ident, data_enum: DataEnum) -> TokenStream {
@@ -16,11 +16,24 @@ pub fn generate(name: Ident, data_enum: DataEnum) -> TokenStream {
     generator.finish(&name)
 }
 
+#[derive(Debug)]
+struct Length {
+    units: usize,
+    opaque: TokenStream,
+}
+
+impl ToTokens for Length {
+    fn to_tokens(&self, tokens: &mut TokenStream) {
+        let Self { units, opaque } = self;
+        tokens.extend(quote! { #units + #opaque });
+    }
+}
+
 /// Total length is the sum of each variant's length. To represent a variant, its number is added to
 /// the sum of previous variant lengths.
 #[derive(Debug)]
 struct EnumGenerator {
-    length: TokenStream,
+    length: Length,
     from_usize_arms: TokenStream,
     into_usize_arms: TokenStream,
 }
@@ -28,16 +41,21 @@ struct EnumGenerator {
 impl EnumGenerator {
     fn empty() -> Self {
         Self {
-            length: quote! { 0usize },
+            length: Length {
+                units: 0,
+                opaque: quote! { 0 },
+            },
             from_usize_arms: quote! {},
             into_usize_arms: quote! {},
         }
     }
 
     fn finish(&self, name: &Ident) -> TokenStream {
-        let length = &self.length;
-        let from_usize_arms = &self.from_usize_arms;
-        let into_usize_arms = &self.into_usize_arms;
+        let Self {
+            length,
+            from_usize_arms,
+            into_usize_arms,
+        } = self;
 
         quote! {
             #[automatically_derived]
@@ -71,23 +89,29 @@ impl EnumGenerator {
 
     /// Becomes simply `1` in counting, since this is the size of the unit.
     fn handle_unit_variant(&mut self, variant: &Ident) {
-        let into_arms = &self.into_usize_arms;
-        let length = &self.length;
-        self.into_usize_arms = quote! { #into_arms Self::#variant => #length, };
-        let from_arms = &self.from_usize_arms;
-        self.from_usize_arms = quote! {
-            #from_arms if value == #length {
+        let Self {
+            length,
+            from_usize_arms,
+            into_usize_arms,
+        } = self;
+        *into_usize_arms = quote! { #into_usize_arms Self::#variant => #length, };
+        *from_usize_arms = quote! {
+            #from_usize_arms if value == #length {
                 Self::#variant
             } else
         };
-        self.length = quote! { (#length + 1) };
+        self.length.units += 1;
     }
 
     /// Its size is the product of the sizes of its members. To represent this variant, one can
     /// think of this as representing a little-endian number. First member is simply added, but
     /// next members are multiplied before being added.
     fn handle_unnamed_variant(&mut self, variant: &Ident, fields: &FieldsUnnamed) {
-        let length = &self.length;
+        let Self {
+            length,
+            from_usize_arms,
+            into_usize_arms,
+        } = self;
         let mut expr_into = quote! { #length };
         let mut fields_length = quote! { 1usize };
         let mut params_from = quote! {};
@@ -109,11 +133,13 @@ impl EnumGenerator {
             fields_length = quote! { (#fields_length * #field_length) };
         }
 
-        self.length = quote! { (#length + #fields_length) };
+        *length = Length {
+            units: 0,
+            opaque: quote! { (#length + #fields_length) },
+        };
 
-        let length = &self.length;
-        let from_arms = &self.from_usize_arms;
-        self.from_usize_arms = quote! {
+        let from_arms = &from_usize_arms;
+        *from_usize_arms = quote! {
             #from_arms if value < #length {
                 Self::#variant(#params_from)
             } else
@@ -125,9 +151,8 @@ impl EnumGenerator {
             params_into = quote! { #params_into #ident, };
         }
 
-        let into_arms = &self.into_usize_arms;
-        self.into_usize_arms = quote! {
-            #into_arms Self::#variant(#params_into) => #expr_into,
+        *into_usize_arms = quote! {
+            #into_usize_arms Self::#variant(#params_into) => #expr_into,
         };
     }
 
@@ -135,7 +160,11 @@ impl EnumGenerator {
     /// think of this as representing a little-endian number. First member is simply added, but
     /// next members are multiplied before being added.
     fn handle_named_variant(&mut self, variant: &Ident, fields: &FieldsNamed) {
-        let length = &self.length;
+        let Self {
+            length,
+            from_usize_arms,
+            into_usize_arms,
+        } = self;
         let mut expr_into = quote! { #length };
         let mut fields_length = quote! { 1usize };
         let mut params_from = quote! {};
@@ -158,12 +187,13 @@ impl EnumGenerator {
             fields_length = quote! { (#fields_length * #field_length) };
         }
 
-        self.length = quote! { (#length + #fields_length) };
+        *length = Length {
+            units: 0,
+            opaque: quote! { (#length + #fields_length) },
+        };
 
-        let length = &self.length;
-        let from_arms = &self.from_usize_arms;
-        self.from_usize_arms = quote! {
-            #from_arms if value < #length {
+        *from_usize_arms = quote! {
+            #from_usize_arms if value < #length {
                 Self::#variant { #params_from }
             } else
         };
@@ -174,9 +204,8 @@ impl EnumGenerator {
             params_into = quote! { #params_into #ident, };
         }
 
-        let into_arms = &self.into_usize_arms;
-        self.into_usize_arms = quote! {
-            #into_arms Self::#variant { #params_into } => #expr_into,
+        *into_usize_arms = quote! {
+            #into_usize_arms Self::#variant { #params_into } => #expr_into,
         };
     }
 }
