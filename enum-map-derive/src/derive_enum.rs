@@ -25,7 +25,7 @@ struct Length {
 impl ToTokens for Length {
     fn to_tokens(&self, tokens: &mut TokenStream) {
         let Self { units, opaque } = self;
-        tokens.extend(quote! { #units + #opaque });
+        tokens.extend(quote! { (#units + #opaque) });
     }
 }
 

@@ -656,3 +656,41 @@ fn usize_override() {
         B,
     }
 }
+
+// Regression test for https://codeberg.org/xfix/enum-map/issues/112
+#[test]
+fn test_issue_112() {
+    #[derive(Enum, PartialEq, Debug)]
+    enum Inner {
+        Inner1,
+        Inner2,
+    }
+
+    #[derive(Enum, PartialEq, Debug)]
+    enum Outer {
+        A,
+        B(Inner),
+        C,
+        D(Inner, Inner),
+        E,
+    }
+
+    assert_eq!(Outer::A.into_usize(), 0);
+    assert_eq!(Outer::A, Outer::from_usize(0));
+    assert_eq!(Outer::B(Inner::Inner1).into_usize(), 1);
+    assert_eq!(Outer::B(Inner::Inner1), Outer::from_usize(1));
+    assert_eq!(Outer::B(Inner::Inner2).into_usize(), 2);
+    assert_eq!(Outer::B(Inner::Inner2), Outer::from_usize(2));
+    assert_eq!(Outer::C.into_usize(), 3);
+    assert_eq!(Outer::C, Outer::from_usize(3));
+    assert_eq!(Outer::D(Inner::Inner1, Inner::Inner1).into_usize(), 4);
+    assert_eq!(Outer::D(Inner::Inner1, Inner::Inner1), Outer::from_usize(4));
+    assert_eq!(Outer::D(Inner::Inner2, Inner::Inner1).into_usize(), 5);
+    assert_eq!(Outer::D(Inner::Inner2, Inner::Inner1), Outer::from_usize(5));
+    assert_eq!(Outer::D(Inner::Inner1, Inner::Inner2).into_usize(), 6);
+    assert_eq!(Outer::D(Inner::Inner1, Inner::Inner2), Outer::from_usize(6));
+    assert_eq!(Outer::D(Inner::Inner2, Inner::Inner2).into_usize(), 7);
+    assert_eq!(Outer::D(Inner::Inner2, Inner::Inner2), Outer::from_usize(7));
+    assert_eq!(Outer::E.into_usize(), 8);
+    assert_eq!(Outer::E, Outer::from_usize(8));
+}
