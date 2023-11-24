@@ -5,6 +5,14 @@ SPDX-FileCopyrightText: 2021 Alex Sayers <alex@asayers.com>
 SPDX-License-Identifier: MIT OR Apache-2.0
 -->
 
+# Version 2.7.3
+
+## Other changes
+
+- Fixed [a regression introduced in 2.7.2 that caused `#[derive(Enum)]` to
+  generate incorrect code when dealing with enums containing
+  fields](https://codeberg.org/xfix/enum-map/issues/112).
+
 # Version 2.7.2
 
 ## Other changes
