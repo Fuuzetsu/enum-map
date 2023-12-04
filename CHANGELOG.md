@@ -5,6 +5,16 @@ SPDX-FileCopyrightText: 2021 Alex Sayers <alex@asayers.com>
 SPDX-License-Identifier: MIT OR Apache-2.0
 -->
 
+# Version 3.0.0-beta.3
+
+## New features
+
+- Added optional support for `borsh` serialisation.
+
+## Incompatible changes
+
+- Now requires Rust 1.66
+
 # Version 2.7.3
 
 ## Other changes
